@@ -1,0 +1,7 @@
+{% extends 'base.html' %} <!-- Должен быть первым тегом, иначе не будет работать -->
+
+{% block title %}Время сейчас{% endblock %}
+
+{% block content %}
+<p>Сейчас {{ current_date }}</p>
+{% endblock %}
