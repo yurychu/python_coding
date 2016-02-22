@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
 
+from django.template.loader import get_template
 from django.http import HttpResponse, Http404
-from django.template import Template, Context
+from django.template import Context
 
 
 def hello(request):
@@ -15,9 +16,7 @@ def home(request):
 
 def current_datetime(request):
     now = datetime.datetime.now()
-    fp = open('/home/yurychu/mytemplate.html')
-    t = Template(fp.read())
-    fp.close()
+    t = get_template('mytemplate.html')
     html = t.render(Context({'current_date': now}))
     return HttpResponse(html)
 
