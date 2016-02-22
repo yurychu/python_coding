@@ -15,7 +15,9 @@ def home(request):
 
 def current_datetime(request):
     now = datetime.datetime.now()
-    t = Template('<html><body>Сейчас {{ current_date }}</body></html>')
+    fp = open('/home/yurychu/mytemplate.html')
+    t = Template(fp.read())
+    fp.close()
     html = t.render(Context({'current_date': now}))
     return HttpResponse(html)
 
