@@ -22,7 +22,7 @@ class Author(models.Model):
     salutation = models.CharField(max_length=10)
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=40)
-    email = models.EmailField(blank=True)
+    email = models.EmailField(blank=True, verbose_name="e-mail")
     headshot = models.ImageField(upload_to='tmp')
 
     def __unicode__(self):
