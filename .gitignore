@@ -65,3 +65,4 @@ env2/
 .idea/
 db_on_python/
 *.sqlite3
+tmp/
