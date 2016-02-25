@@ -43,6 +43,8 @@ def search(request):
         q = request.GET['q']
         if not q:
             error = True
+        elif len(q) > 20:
+            error = True
         else:
             books = Book.objects.filter(title__icontains=q)
             return render_to_response('search_results.html',
