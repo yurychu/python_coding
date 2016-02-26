@@ -18,7 +18,8 @@ from django.contrib import admin
 
 from mysite.views import (hello, home,
                           current_datetime, hours_ahead,
-                          display_meta, search)
+                          display_meta, search,
+                          contact, contact_thanks)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,4 +29,6 @@ urlpatterns = [
     url(r'^time/plus/(\d{1,2})/$', hours_ahead),
     url(r'^show_meta', display_meta),
     url(r'^search/$', search),
+    url(r'^contact/$', contact),
+    url(r'^contact/thanks$', contact_thanks)
 ]

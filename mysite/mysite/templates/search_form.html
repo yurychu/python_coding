@@ -9,8 +9,12 @@
         <input type="text" name="q">
         <input type="submit" value="Search">
     </form>
-    {% if error %}
-        <p style="color: red;">Please submit a search term</p>
+    {% if errors %}
+        <ul>
+            {% for error in errors %}
+                <li style="color: red;">{{ error }}</li>
+            {% endfor %}
+        </ul>
     {% endif %}
 </body>
 </html>
