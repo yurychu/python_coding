@@ -80,5 +80,6 @@ def contact_thanks(request):
 
 def object_list(request, model):
     obj_list = model.objects.all()
-    template_name = '%s_list.html' % model.__name__.lower()
-    return render_to_response(template_name, {'object_list': obj_list})
+    obj_name = model.__name__.lower() + '_list'
+    template_name = '%s.html' % obj_name
+    return render_to_response(template_name, {obj_name: obj_list})
