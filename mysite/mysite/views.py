@@ -13,8 +13,8 @@ def hello(request):
     return HttpResponse("Привет чувак")
 
 
-def home(request, ho_lo):
-    return HttpResponse("Хоме пейдж" + ho_lo)
+def home(request, home1, home2):
+    return HttpResponse("Хоме пейдж" + str(home2) + str(home1))
 
 
 def current_datetime(request):
