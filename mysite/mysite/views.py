@@ -13,8 +13,8 @@ def hello(request):
     return HttpResponse("Привет чувак")
 
 
-def home(request):
-    return HttpResponse("Хоме пейдж")
+def home(request, ho_lo):
+    return HttpResponse("Хоме пейдж" + ho_lo)
 
 
 def current_datetime(request):
@@ -76,3 +76,9 @@ def contact(request):
 
 def contact_thanks(request):
     return HttpResponse('Thanks')
+
+
+def object_list(request, model):
+    obj_list = model.objects.all()
+    template_name = '%s_list.html' % model.__name__.lower()
+    return render_to_response(template_name, {'object_list': obj_list})

@@ -16,19 +16,18 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
-from mysite.views import (hello, home,
-                          current_datetime, hours_ahead,
-                          display_meta, search,
-                          contact, contact_thanks)
+from mysite import views
+from books import models
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', home),
-    url(r'^hello/$', hello),
-    url(r'^time/$', current_datetime),
-    url(r'^time/plus/(\d{1,2})/$', hours_ahead),
-    url(r'^show_meta', display_meta),
-    url(r'^search/$', search),
-    url(r'^contact/$', contact),
-    url(r'^contact/thanks$', contact_thanks)
+    url(r'^$', views.home, {'ho_lo': 'home_love'}),
+    url(r'^authors/$', views.object_list, {'model': models.Author}),
+    # url(r'^hello/$', views.hello),
+    # url(r'^time/$', views.current_datetime),
+    # url(r'^time/plus/(\d{1,2})/$', views.hours_ahead),
+    # url(r'^show_meta', display_meta),
+    # url(r'^search/$', search),
+    # url(r'^contact/$', contact),
+    # url(r'^contact/thanks$', contact_thanks)
 ]
