@@ -83,3 +83,11 @@ def object_list(request, model):
     obj_name = model.__name__.lower() + '_list'
     template_name = '%s.html' % obj_name
     return render_to_response(template_name, {obj_name: obj_list})
+
+
+def requires_login(view):
+    def new_view(request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return HttpResponseRedirect('/accounts/login/')
+        return view(request, *args, **kwargs)
+    return new_view
