@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.contrib.auth.views import login, logout
+
 from django.views.generic import TemplateView, ListView
+
 
 from mysite import views
 from books import models
@@ -32,6 +35,8 @@ urlpatterns = [
     url(r'^hello-pdf/$', views.hello_pdf),
     url(r'^show_color/$', views.show_color),
     url(r'^set_color/$', views.set_color),
+    url(r'^accounts/login/$', login, {'template_name': 'admin/login.html'}),
+    url(r'^accounts/logout/$', logout),
     # url(r'^books/', include('books.urls')),
     # url(r'^about/$', TemplateView.as_view(template_name='about.html')),
     # url(r'^publisher/$', ListView.as_view(), publisher_info),
