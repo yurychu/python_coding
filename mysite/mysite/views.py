@@ -8,6 +8,8 @@ from django.template import RequestContext
 
 from books.models import Book
 
+from reportlab.pdfgen import canvas
+
 
 def hello(request):
     return HttpResponse("Привет чувак")
@@ -96,3 +98,16 @@ def requires_login(view):
 def my_image(request):
     image_data = open('tmp/копии-учредит-документов.jpg')
     return HttpResponse(image_data, content_type='image/png')
+
+
+def hello_pdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename=hello.pdf'
+
+    p = canvas.Canvas(response)
+
+    p.drawString(100, 100, 'Hello world')
+
+    p.showPage()
+    p.save()
+    return response
