@@ -28,6 +28,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^(?P<home1>\d)/(?P<home2>\d)/$', views.home),
     url(r'^authors/$', views.object_list, {'model': models.Author}),
+    url(r'^my-image/$', views.my_image),
     # url(r'^books/', include('books.urls')),
     # url(r'^about/$', TemplateView.as_view(template_name='about.html')),
     # url(r'^publisher/$', ListView.as_view(), publisher_info),

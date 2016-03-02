@@ -91,3 +91,8 @@ def requires_login(view):
             return HttpResponseRedirect('/accounts/login/')
         return view(request, *args, **kwargs)
     return new_view
+
+
+def my_image(request):
+    image_data = open('tmp/копии-учредит-документов.jpg')
+    return HttpResponse(image_data, content_type='image/png')
