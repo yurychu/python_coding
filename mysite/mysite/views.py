@@ -3,6 +3,8 @@ import datetime
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.mail import send_mail
+from django.contrib import auth
+
 from forms import ContactForm
 from django.template import RequestContext
 
@@ -130,3 +132,19 @@ def set_color(request):
         return response
     else:
         return HttpResponse("Your didnt give a favorite color")
+
+
+def login(request):
+    username = request.POST["username"]
+    password = request.POST["password"]
+    user = auth.authenticate(username=username, password=password)
+    if user is not None and user.is_active:
+        auth.login(request, user)
+        return HttpResponseRedirect('/account/logged-in')
+    else:
+        return HttpResponseRedirect('/account/login-error')
+
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect('/account/logout')
