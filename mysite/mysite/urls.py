@@ -30,6 +30,8 @@ urlpatterns = [
     url(r'^authors/$', views.object_list, {'model': models.Author}),
     url(r'^my-image/$', views.my_image),
     url(r'^hello-pdf/$', views.hello_pdf),
+    url(r'^show_color/$', views.show_color),
+    url(r'^set_color/$', views.set_color),
     # url(r'^books/', include('books.urls')),
     # url(r'^about/$', TemplateView.as_view(template_name='about.html')),
     # url(r'^publisher/$', ListView.as_view(), publisher_info),
