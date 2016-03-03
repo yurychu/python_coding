@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Страница авторизации
+{% endblock %}
+{% block content %}
+    <h2>Авторизация</h2>
+    {% if form.errors %}
+        <p class="errors">Неправильно введен логин или пароль</p>
+    {% endif %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <label for="username">Логин: </label>
+        <input type="text" name="username" value="" id="username">
+        <label for="password">Пароль</label>
+        <input type="password" name="password" value="" id="password">
+
+        <input type="submit" value="login" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+{% endblock %}

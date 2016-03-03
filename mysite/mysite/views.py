@@ -4,6 +4,8 @@ from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.mail import send_mail
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.forms import UserCreationForm
 
 from forms import ContactForm
 from django.template import RequestContext
@@ -115,6 +117,7 @@ def hello_pdf(request):
     return response
 
 
+@login_required
 def show_color(request):
     if "favorite_color" in request.COOKIES:
         return HttpResponse("Your favorite color is %s" %
@@ -148,3 +151,16 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect('/account/logout')
+
+
+def register(request):
+    form = UserCreationForm()
+    if request.method == "POST":
+        data = request.POST.copy()
+        errors = form.get_validation_errors(data)
+        if not errors:
+            new_user = form.save(data)
+            return HttpResponseRedirect('/show_color/')
+    else:
+        data, errors = {}, {}
+    return render_to_response('my_register.html', {'form': form, 'errors': errors})
