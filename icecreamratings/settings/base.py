@@ -11,16 +11,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
-
 from django.core.exceptions import ImproperlyConfigured
 
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 def get_env_variable(var_name):
@@ -30,10 +22,19 @@ def get_env_variable(var_name):
     try:
         return os.environ[var_name]
     except KeyError:
-        error_msg = "Установитье {} как переменную окружения".format(var_name)
+        error_msg = "Установите {} как переменную окружения".format(var_name)
         raise ImproperlyConfigured(error_msg)
 
-DJANGO_SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+# Get secret key
+SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
+
 
 ALLOWED_HOSTS = []
 
