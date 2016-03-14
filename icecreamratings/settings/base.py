@@ -11,10 +11,26 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+import json
 from django.core.exceptions import ImproperlyConfigured
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
+with open('secrets.json') as f:
+    secrets = json.loads(f.read())
+
+
+def get_secret(setting, secrets=secrets):
+    """
+    Получает секретные данные из файла
+    """
+    try:
+        return secrets[setting]
+    except KeyError:
+        error_msg = "Не удалось найти настройку {}".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+
 def get_env_variable(var_name):
     """
     Выдает переменную окружения или вызыват исключение
@@ -26,7 +42,8 @@ def get_env_variable(var_name):
         raise ImproperlyConfigured(error_msg)
 
 # Get secret key
-SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+# SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+SECRET_KEY = get_secret('SECRET_KEY')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
