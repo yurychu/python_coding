@@ -1,0 +1,4 @@
+-r base.txt  # подключает базовый список требований
+
+coverage
+django-debug-toolbar
