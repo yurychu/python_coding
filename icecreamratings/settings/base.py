@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 import json
+
+from unipath import Path
+
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -41,12 +44,21 @@ def get_env_variable(var_name):
         error_msg = "Установите {} как переменную окружения".format(var_name)
         raise ImproperlyConfigured(error_msg)
 
+
 # Get secret key
 # SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
-SECRET_KEY = get_secret('SECRET_KEY')
+SECRET_KEY = get_secret("SECRET_KEY")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).ancestor(3)
+
+MEDIA_ROOT = BASE_DIR.child("media")
+
+STATIC_ROOT = BASE_DIR.child("static")
+
+STATICFILES_DIRS = (
+    BASE_DIR.child('assets')
+)
 
 
 # Quick-start development settings - unsuitable for production
@@ -82,7 +94,9 @@ ROOT_URLCONF = 'icecreamratings.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR.child("templates"),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
