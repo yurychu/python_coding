@@ -1,0 +1,4 @@
+
+
+class OutOfStock(Exception):
+    pass
