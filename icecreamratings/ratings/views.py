@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
+from django.db.models import Q, F
 
+from .models import Customer
 from flavors.models import Flavor
 from promos.models import Promo
 
@@ -39,3 +40,7 @@ def fun_function(**kwargs):
     results = results.exclude(status='melted')
     results = results.select_releated('flavors')
     return results
+
+
+customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
+# SELECT * FROM customers_customer WHERE scoops_ordered > store_visits
