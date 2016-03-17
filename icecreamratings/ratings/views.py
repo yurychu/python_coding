@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F
+from django.views.generic import ListView, DetailView, UpdateView
+from django.core.urlresolvers import reverse
 
-from .models import Customer
+from .models import Customer, Tasting
 from flavors.models import Flavor
 from promos.models import Promo
 
@@ -44,3 +46,23 @@ def fun_function(**kwargs):
 
 customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
 # SELECT * FROM customers_customer WHERE scoops_ordered > store_visits
+
+
+class TasteListView(ListView):
+    model = Tasting
+
+
+class TasteDetailView(DetailView):
+    model = Tasting
+
+
+class TasteResultsView(TasteDetailView):
+    template_name = 'tastings/results.html'
+
+
+class TasteUpdateView(UpdateView):
+    model = Tasting
+
+    def get_success_url(self):
+        return reverse("tastings:detail",
+                       kwargs={"pk": self.object.pk})
