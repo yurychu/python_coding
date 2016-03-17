@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q, F
-from django.views.generic import ListView, DetailView, UpdateView
+from django.views.generic import View, ListView, DetailView, UpdateView
 from django.core.urlresolvers import reverse
 
 from .models import Customer, Tasting
@@ -66,3 +67,17 @@ class TasteUpdateView(UpdateView):
     def get_success_url(self):
         return reverse("tastings:detail",
                        kwargs={"pk": self.object.pk})
+
+
+# The simplest FBV
+def simplest_view(request):
+    # business logic
+    return HttpResponse('FBV')
+
+
+# The simplest CBV
+class SimplestView(View):
+
+    def get(self, request, *args, **kwargs):
+        # business logic
+        return HttpResponse('CBV')
