@@ -18,5 +18,9 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^tastings/', include('ratings.urls', namespace='tastings'))
+    url(r'^tastings/', include('ratings.urls', namespace='tastings')),
+    url(r'^contact/', include('contactmonger.urls',
+                              namespace='contactmonger')),
+    url(r'^report-problem/', include('contactapp.urls',
+                                     namespace='contactapp')),
 ]

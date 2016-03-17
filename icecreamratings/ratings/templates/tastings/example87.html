@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Contact{% endblock title %}
+{% block content %}
+<p>
+    <a href="{% url 'contactmonger:create' %}">Contact Us</a>
+</p>
+<p>
+    <a href="{% url 'contactapp:report' %}">Rerport a Problem</a>
+</p>
+{% endblock content %}
