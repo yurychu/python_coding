@@ -20,9 +20,9 @@ def check_sprinkle_rights(request):
 # Простой шаблон декоратора
 def decorator(view_func):
     @functools.wraps(view_func)
-    def new_veiw_func(request, *args, **kwargs):
+    def new_view_func(request, *args, **kwargs):
         # Тут мы можем модифицировать request (HttpRequest)
         response = view_func(request, *args, **kwargs)
         # Так же можно модифицировать response (HttpResponse)
         return response
-    return new_veiw_func
+    return new_view_func
