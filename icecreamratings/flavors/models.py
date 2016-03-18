@@ -22,3 +22,7 @@ class FlavorReview(models.Model):
 
     # добавляем кастомную модель менеджера (переименовываем objects)
     objects = PublishedManager()
+
+
+class Sprinkle(models.ModelK):
+    pass
