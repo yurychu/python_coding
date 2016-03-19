@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView, CreateView
 
 from braces.views import LoginRequiredMixin
 
@@ -69,3 +69,12 @@ class FruityFlavorView(FreshFruitMixin, TemplateView):
 
 class FlavorDetailView(LoginRequiredMixin, DetailView):
     model = Flavor
+
+
+class FlavorCreateView(LoginRequiredMixin, CreateView):
+    model = Flavor
+    fields = ('title', 'slug', 'scoops_remaining')
+
+    def form_valid(self, form):
+        # Здесь может быть кастомная логика
+        return super(FlavorCreateView, self).form_valid(form)
