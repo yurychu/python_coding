@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import DetailView, TemplateView
 
+from braces.views import LoginRequiredMixin
+
 from core.utils import check_sprinkle_rights
 from .decorators import check_sprinkles
-from .models import Sprinkle
+from .models import Sprinkle, Flavor
 
 
 def sprinkle_list(request):
@@ -63,3 +65,7 @@ class FreshFruitMixin(object):
 
 class FruityFlavorView(FreshFruitMixin, TemplateView):
     template_name = 'fruity_flavor.html'
+
+
+class FlavorDetailView(LoginRequiredMixin, DetailView):
+    model = Flavor
