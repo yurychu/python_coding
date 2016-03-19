@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block likes_and_favorites %}
+<ul>
+    <li>Likes: {{ view.likes_and_favorites.likes }}</li>
+    <li>Favorites: {{ view.likes_and_favorites.favorites_count }}</li>
+</ul>
+{% endblock likes_and_favorites %}
