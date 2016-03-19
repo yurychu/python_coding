@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 
 from core.utils import check_sprinkle_rights
 from .decorators import check_sprinkles
@@ -51,3 +51,15 @@ class SprinkleDetail(DetailView):
         return super(SprinkleDetail, self).dispatch(
             request, *args, **kwargs
         )
+
+
+class FreshFruitMixin(object):
+
+    def get_context_data(self, **kwargs):
+        context = super(FreshFruitMixin, self).get_context_data(**kwargs)
+        context['has_fresh_fruit'] = True
+        return context
+
+
+class FruityFlavorView(FreshFruitMixin, TemplateView):
+    template_name = 'fruity_flavor.html'
