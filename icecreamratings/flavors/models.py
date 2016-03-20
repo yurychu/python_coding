@@ -46,3 +46,7 @@ class Purchase(models.Model):
 
 class Seller(models.Model):
     pass
+
+
+class Taster(models.Model):
+    pass

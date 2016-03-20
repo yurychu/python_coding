@@ -3,7 +3,7 @@ from io import StringIO
 
 from django import forms
 
-from .models import Seller, Purchase
+from .models import Seller, Purchase, Taster
 
 
 class FlavorForm:
@@ -47,3 +47,14 @@ def add_csv_purchases(rows):
             errors.append(form.errors)
 
     return records_added, errors
+
+
+class TasterForm(forms.ModelForm):
+
+    class Meta:
+        model = Taster
+
+    def __init__(self):
+        # устанавливаем пользователя как атрибут формы
+        self.user = kwargs.pop('user')
+        super(TasterForm, self).__init__(*args, **kwargs)

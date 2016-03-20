@@ -10,8 +10,8 @@ from braces.views import LoginRequiredMixin
 
 from core.utils import check_sprinkle_rights
 from .decorators import check_sprinkles
-from .models import Sprinkle, Flavor
-from .forms import FlavorForm
+from .models import Sprinkle, Flavor, Taster
+from .forms import FlavorForm, TasterForm
 from .tasks import update_users_who_favorited
 from .reports import make_flavor_pdf
 
@@ -184,3 +184,19 @@ class PDFFlavorView(LoginRequiredMixin, View):
         response = make_flavor_pdf(response, flavor)
 
         return response
+
+
+class TasterUpdateView(LoginRequiredMixin, UpdateView):
+    model = Taster
+    form_class = TasterForm
+    success_url = '/someplace/'
+
+    def get_form_kwargs(self):
+        """
+        Этот метод делает инъекцию в форму по ключевым аргументам
+        """
+        # захватим текущий набор кваргов формы
+        kwargs = super(TasterUpdateView, self).get_form_kwargs()
+        # обновим кварги с user_id
+        kwargs['user'] = self.request.user
+        return kwargs
