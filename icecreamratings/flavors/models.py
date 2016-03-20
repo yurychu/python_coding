@@ -36,5 +36,13 @@ class FlavorReview(models.Model):
     objects = PublishedManager()
 
 
-class Sprinkle(models.ModelK):
+class Sprinkle(models.Model):
+    pass
+
+
+class Purchase(models.Model):
+    pass
+
+
+class Seller(models.Model):
     pass
