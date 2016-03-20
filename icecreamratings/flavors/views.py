@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import (DetailView, TemplateView,
                                   CreateView, UpdateView)
 from django.utils.functional import cached_property
+from django.contrib import messages
 
 from braces.views import LoginRequiredMixin
 
@@ -70,19 +71,6 @@ class FruityFlavorView(FreshFruitMixin, TemplateView):
     template_name = 'fruity_flavor.html'
 
 
-class FlavorCreateView(LoginRequiredMixin, CreateView):
-    model = Flavor
-    fields = ('title', 'slug', 'scoops_remaining')
-
-    def form_valid(self, form):
-        # Здесь может быть кастомная логика
-        return super(FlavorCreateView, self).form_valid(form)
-
-    def form_invalid(self, form):
-        # Здесь кастомная логика для для действий с невалидной формой
-        return super(FlavorCreateView, self).form_invalid(form)
-
-
 class FavoriteMixin(object):
 
     @cached_property
@@ -99,9 +87,23 @@ class FavoriteMixin(object):
         }
 
 
-class FavoriteUpdateView(LoginRequiredMixin, FavoriteMixin, UpdateView):
+class FlavorActionMixin(object):
+    fields = ('title', 'slug', 'scoops_remaining')
+
+    @property
+    def success_msg(self):
+        return NotImplemented
+
+    def form_valid(self, form):
+        messages.info(self.request, self.success_msg)
+        return super(FlavorActionMixin, self).form_valid(form)
+
+
+class FavoriteUpdateView(LoginRequiredMixin, FavoriteMixin,
+                         FlavorActionMixin, UpdateView):
     model = Flavor
     fields = ('title', 'slug', 'scoops_remaining')
+    success_msg = 'Flavor updated!'
 
     def form_valid(self, form):
         update_users_who_favorited(
@@ -113,3 +115,19 @@ class FavoriteUpdateView(LoginRequiredMixin, FavoriteMixin, UpdateView):
 
 class FlavorDetailView(LoginRequiredMixin, FavoriteMixin, DetailView):
     model = Flavor
+
+
+class FlavorCreateView(LoginRequiredMixin, CreateView,
+                       FlavorActionMixin):
+    model = Flavor
+    fields = ('title', 'slug', 'scoops_remaining')
+    success_msg = 'Flavor created!'
+
+    def form_valid(self, form):
+        # Здесь может быть кастомная логика
+        return super(FlavorCreateView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        # Здесь кастомная логика для для действий с невалидной формой
+        return super(FlavorCreateView, self).form_invalid(form)
+
