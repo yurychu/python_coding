@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (DetailView, TemplateView,
                                   CreateView, UpdateView,
-                                  ListView)
+                                  ListView, View)
 from django.utils.functional import cached_property
 from django.contrib import messages
 
@@ -10,6 +10,7 @@ from braces.views import LoginRequiredMixin
 from core.utils import check_sprinkle_rights
 from .decorators import check_sprinkles
 from .models import Sprinkle, Flavor
+from .forms import FlavorForm
 from .tasks import update_users_who_favorited
 
 
@@ -147,3 +148,22 @@ class FlavorListView(ListView):
             return queryset.filter(title__icontains=q)
         # возвращаемся на базовый кверисет
         return queryset
+
+
+class FlavorView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        # Управляем отображением объекта Flavor
+        flavor = get_object_or_404(Flavor, slug=kwargs['slug'])
+        return render(request,
+                      'flavors/flavor_detail.html',
+                      {'flavor': flavor}
+                      )
+
+    def post(self, request, *args, **kwargs):
+        # Упраляем обновлением объекта Flavor
+        flavor = get_object_or_404(Flavor, slug=kwargs['slug'])
+        form = FlavorForm(request.POST)
+        if form.is_valid():
+            form.save()
+        return redirect('flavors:detail', flavor.slug)
