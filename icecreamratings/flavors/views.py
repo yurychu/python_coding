@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import (DetailView, TemplateView,
-                                  CreateView, UpdateView)
+                                  CreateView, UpdateView,
+                                  ListView)
 from django.utils.functional import cached_property
 from django.contrib import messages
 
@@ -131,3 +132,18 @@ class FlavorCreateView(LoginRequiredMixin, CreateView,
         # Здесь кастомная логика для для действий с невалидной формой
         return super(FlavorCreateView, self).form_invalid(form)
 
+
+class FlavorListView(ListView):
+    model = Flavor
+
+    def get_queryset(self):
+        # достанем кверисет из родительского кверисета
+        queryset = super(FlavorListView, self).get_queryset()
+
+        # получим q параметр
+        q = self.request.GET.get('q')
+        if q:
+            # Возвращаем отфильтрованный кверисет
+            return queryset.filter(title__icontains=q)
+        # возвращаемся на базовый кверисет
+        return queryset
