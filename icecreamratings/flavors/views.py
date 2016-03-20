@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (DetailView, TemplateView,
                                   CreateView, UpdateView,
                                   ListView, View)
+from django.http import HttpResponse
 from django.utils.functional import cached_property
 from django.contrib import messages
 
@@ -12,6 +13,7 @@ from .decorators import check_sprinkles
 from .models import Sprinkle, Flavor
 from .forms import FlavorForm
 from .tasks import update_users_who_favorited
+from .reports import make_flavor_pdf
 
 
 def sprinkle_list(request):
@@ -167,3 +169,18 @@ class FlavorView(LoginRequiredMixin, View):
         if form.is_valid():
             form.save()
         return redirect('flavors:detail', flavor.slug)
+
+
+class PDFFlavorView(LoginRequiredMixin, View):
+
+    def get(self, request, *args, **kwargs):
+        # Получаем flavor
+        flavor = get_object_or_404(Flavor, slug=kwargs['slug'])
+
+        # создаем response
+        response = HttpResponse(content_type='application/pdf')
+
+        # генерируем pdf и прикладываем к response
+        response = make_flavor_pdf(response, flavor)
+
+        return response
