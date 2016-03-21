@@ -11,3 +11,8 @@ class TimeStampedModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class ModelFormFailureHistory(models.Model):
+    form_data = models.TextField()
+    model_data = models.TextField()

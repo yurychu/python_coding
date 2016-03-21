@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import (DetailView, TemplateView,
                                   CreateView, UpdateView,
@@ -5,10 +7,12 @@ from django.views.generic import (DetailView, TemplateView,
 from django.http import HttpResponse
 from django.utils.functional import cached_property
 from django.contrib import messages
+from django.core import serializers
 
 from braces.views import LoginRequiredMixin
 
 from core.utils import check_sprinkle_rights
+from core.models import ModelFormFailureHistory
 from .decorators import check_sprinkles
 from .models import Sprinkle, Flavor, Taster
 from .forms import FlavorForm, TasterForm
@@ -101,6 +105,19 @@ class FlavorActionMixin(object):
     def form_valid(self, form):
         messages.info(self.request, self.success_msg)
         return super(FlavorActionMixin, self).form_valid(form)
+
+    def form_invalid(self, form):
+        """
+        Сохраним невалидную форму и модель для изучения.
+        """
+        form_data = json.dumps(form.cleaned_data)
+        model_data = serializers.serialize('json',
+                                           [form.instance])[1:-1]
+        ModelFormFailureHistory.objects.create(
+            form_data=form_data,
+            model_data=model_data
+        )
+        return super(FlavorActionMixin, self).form_invalid(form)
 
 
 class FavoriteUpdateView(LoginRequiredMixin, FavoriteMixin,
