@@ -138,8 +138,8 @@ class FlavorDetailView(LoginRequiredMixin, FavoriteMixin, DetailView):
     model = Flavor
 
 
-class FlavorCreateView(LoginRequiredMixin, CreateView,
-                       FlavorActionMixin):
+class FlavorCreateView(LoginRequiredMixin, FlavorActionMixin,
+                       CreateView):
     model = Flavor
     fields = ('title', 'slug', 'scoops_remaining')
     success_msg = 'Flavor created!'

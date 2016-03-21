@@ -58,3 +58,21 @@ class TasterForm(forms.ModelForm):
         # устанавливаем пользователя как атрибут формы
         self.user = kwargs.pop('user')
         super(TasterForm, self).__init__(*args, **kwargs)
+
+
+class IceCreamReviewForm(forms.Form):
+    # Содержимое формы
+
+    def clean(self):
+        cleaned_data = super(TasterForm, self).clean()
+        flavor = cleaned_data.get('flavor')
+        age = cleaned_data.get('age')
+
+        if flavor == 'coffee' and age < 3:
+            # Запишем ошибку, которую выведем позже
+            msg = 'Coffee Ice Cream is not for Babies.'
+            self.add_error('flavor', msg)
+            self.add_error('age', msg)
+
+        # всегда возвращаем полный набор cleaned data
+        return cleaned_data
