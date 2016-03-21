@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 
-from core.models import TimeStampedModel
+from core.models import TimeStampedModel, TastyTitleAbstractModel
 
 
 STATUS = (
@@ -11,8 +11,7 @@ STATUS = (
 )
 
 
-class Flavor(TimeStampedModel):
-    title = models.CharField(max_length=200)
+class Flavor(TastyTitleAbstractModel):
     slug = models.SlugField(unique=True)
     scoops_remaining = models.IntegerField(default=0, choices=STATUS)
 

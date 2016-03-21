@@ -96,6 +96,8 @@ class FavoriteMixin(object):
 
 
 class FlavorActionMixin(object):
+
+    model = Flavor
     fields = ('title', 'slug', 'scoops_remaining')
 
     @property
@@ -125,6 +127,7 @@ class FavoriteUpdateView(LoginRequiredMixin, FavoriteMixin,
     model = Flavor
     fields = ('title', 'slug', 'scoops_remaining')
     success_msg = 'Flavor updated!'
+    form_class = FlavorForm
 
     def form_valid(self, form):
         update_users_who_favorited(
@@ -143,6 +146,7 @@ class FlavorCreateView(LoginRequiredMixin, FlavorActionMixin,
     model = Flavor
     fields = ('title', 'slug', 'scoops_remaining')
     success_msg = 'Flavor created!'
+    form_class = FlavorForm
 
     def form_valid(self, form):
         # Здесь может быть кастомная логика
