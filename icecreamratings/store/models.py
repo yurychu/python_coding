@@ -10,3 +10,7 @@ class IceCreamStore(models.Model):
 
     def get_absolute_url(self):
         return reverse('store_detail', kwargs={'pk': self.pk})
+
+
+class Store(models.Model):
+    pass

@@ -1,7 +1,8 @@
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, ListView
 
+from core.views import TitleSearchMixin
 from .forms import IceCreamStoreCreateForm, IceCreamStoreUpdateForm
-from .models import IceCreamStore
+from .models import IceCreamStore, Store
 
 
 class IceCreamCreateView(CreateView):
@@ -12,3 +13,7 @@ class IceCreamCreateView(CreateView):
 class IceCreamUpdateView(UpdateView):
     model = IceCreamStore
     form_class = IceCreamStoreUpdateForm
+
+
+class IceCreamStoreListView(TitleSearchMixin, ListView):
+    model = Store
