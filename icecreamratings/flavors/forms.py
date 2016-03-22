@@ -84,3 +84,44 @@ class IceCreamReviewForm(forms.Form):
 
         # всегда возвращаем полный набор cleaned data
         return cleaned_data
+
+
+class IceCreamOrderForm(forms.Form):
+    """
+    Нормально можно бы было сделать и с forms.ModelForm.
+    Но мы используем forms.Form здесь для демонстрации техники,
+    которую можно применить в любой форме.
+    """
+
+    slug = forms.ChoiceField('Flavor')
+    toppings = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        super(IceCreamOrderForm, self).__init__(*args, **kwargs)
+
+        # что то связано с перезапуском сервера,
+        # вроде надо перезагрузить, если не было ранее
+        self.fields['slug'].choices = [
+            (x.slug, x.title) for x in Flavor.objects.all()
+        ]
+        # можно с фильтром, но сейчас не об этом
+
+    def clean_slug(self):
+        slug = self.cleaned_data['slug']
+        if Flavor.objects.get(slug=slug).scoops_remaining <= 0:
+            msg = 'Извините. у нас нету такого аромата'
+            raise forms.ValidationError(msg)
+        return slug
+
+    def clean(self):
+        cleaned_data = super(IceCreamOrderForm, self).clean()
+        slug = cleaned_data.get('slug', '')
+        toppings = cleaned_data.get('toppings', '')
+
+        # простенький пример валидации для "too much chocolate"
+        if ('chocolate' in slug.lower()
+            and 'chocolate' in toppings.lower()
+            ):
+            msg = "Ваш заказ имеет слишком много шоколада."
+            raise forms.ValidationError(msg)
+        return cleaned_data
