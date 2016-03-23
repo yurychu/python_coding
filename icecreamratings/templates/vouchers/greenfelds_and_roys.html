@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+<h2>Greenfelds-ы которые захотели мороженого</h2>
+<ul>
+    {% for voucher in greenfelds %}
+        <li>{{ voucher.name }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Roys-ы которые захотели мороженого</h2>
+<ul>
+    {% for voucher in roys %}
+        <li>{{ voucher.name }}</li>
+    {% endfor %}
+</ul>
