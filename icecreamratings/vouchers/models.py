@@ -12,6 +12,6 @@ class Voucher(models.Model):
     address = models.TextField()
     birth_date = models.DateField(blank=True)
     sent = models.BooleanField(default=False)
-    radeemed = models.BooleanField(default=False)
+    redeemed = models.BooleanField(default=False)
 
     objects = VoucherManager()

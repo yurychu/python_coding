@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table>
+    <thead>
+    <tr>
+        <th>Age Bracket</th>
+        <th>Number of Vouchers Issued</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for age_bracket in age_brackets %}
+    <tr>
+        <td>{{ age_bracket.title }}</td>
+        <td>{{ age_bracket.count }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
