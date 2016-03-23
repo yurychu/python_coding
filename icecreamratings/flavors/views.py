@@ -52,7 +52,7 @@ def sprinkle_preview(request):
     """
     sprinkle = Sprinkle.objects.all()
     return render(request,
-                  'sprinkle/sprinkle_preview.html',
+                  'sprinkles/sprinkle_preview.html',
                   {'sprinkle': sprinkle})
 
 
