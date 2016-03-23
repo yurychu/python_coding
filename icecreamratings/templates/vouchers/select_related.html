@@ -1,0 +1,14 @@
+{% comment %}
+Список сгенерирован с помощью такого запроса:
+    User.objects.all().select_related('flavors')
+{% endcomment %}
+
+<h1>Фанаты мороженого и их любимые вкусы</h1>
+<ul>
+    {% for user in user_list %}
+    <li>
+        {{ user.name }}: {{ user.flavor.title }} -
+        {{ user.flavors.scoops_remaining }}
+    </li>
+    {% endfor %}
+</ul>
