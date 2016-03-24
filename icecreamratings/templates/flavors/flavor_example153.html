@@ -7,10 +7,11 @@
         </a>
     </tr>
     <tr>
-        {{ dj.date(purchase.created, 'SHORT_DATE_FORMAT') }}
+        <!-- Вызов django.template.defaultfilters функции из view -->
+        {{ view.dj.date(purchase.created, 'SHORT_DATE_FORMAT') }}
     </tr>
     <tr>
-        {{ dj.floatformat(purchase.amount, 2) }}
+        {{ view.dj.floatformat(purchase.amount, 2) }}
     </tr>
     {% endfor %}
     </tbody>
