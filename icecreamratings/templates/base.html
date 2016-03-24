@@ -1,5 +1,6 @@
 {# пример базового шаблона приложения#}
 {% load staticfiles %}
+{% set ctx = request.context %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,6 +19,13 @@
         {% block content %}
             <h2>Ice Cream</h2>
         {% endblock content %}
+    </div>
+
+    <!-- advertisements -->
+    <div>
+        <a href="{{ ad.url }}">
+            <img src="{{ ad.image }}" />
+        </a>
     </div>
 </body>
 </html>
