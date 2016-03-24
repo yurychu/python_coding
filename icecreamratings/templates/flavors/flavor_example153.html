@@ -1,0 +1,17 @@
+<table>
+    <tbody>
+    {% for purchase in purchase_list %}
+    <tr>
+        <a href="{{ url('purchase:detail', pk=purchase.pk) }}">
+            {{ purchase.title }}
+        </a>
+    </tr>
+    <tr>
+        {{ dj.date(purchase.created, 'SHORT_DATE_FORMAT') }}
+    </tr>
+    <tr>
+        {{ dj.floatformat(purchase.amount, 2) }}
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
