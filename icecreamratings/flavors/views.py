@@ -11,6 +11,8 @@ from django.core import serializers
 from django.views.generic import ListView
 
 from braces.views import LoginRequiredMixin
+from rest_framework.generics import (ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
 
 from core.utils import check_sprinkle_rights
 from core.views import TitleSearchMixin
@@ -20,6 +22,7 @@ from .models import Sprinkle, Flavor, Taster
 from .forms import FlavorForm, TasterForm
 from .tasks import update_users_who_favorited
 from .reports import make_flavor_pdf
+from .serializers import FlavorSerializer
 
 
 def sprinkle_list(request):
@@ -211,3 +214,15 @@ class TasterUpdateView(LoginRequiredMixin, UpdateView):
         # обновим кварги с user_id
         kwargs['user'] = self.request.user
         return kwargs
+
+
+class FlavorCreateReadView(ListCreateAPIView):
+    queryset = Flavor.objects.all()
+    serializer_class = FlavorSerializer
+    lookup_field = 'slug'
+
+
+class FlavorReadUpdateDeleteView(RetrieveUpdateDestroyAPIView):
+    queryset = Flavor.objects.all()
+    serializer_class = FlavorSerializer
+    lookup_field = 'slug'

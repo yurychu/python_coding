@@ -12,6 +12,7 @@ STATUS = (
 
 
 class Flavor(TastyTitleAbstractModel):
+    title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     scoops_remaining = models.IntegerField(default=0, choices=STATUS)
 
