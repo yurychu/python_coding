@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ice Cream Shopping Cart{% endblock title %}
+
+{% block content %}
+    <h1>Ice Cream Shopping Cart</h1>
+    <div class="shopping-cart"></div>
+{% endblock content %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/shopping_cart.js' %}"></script>
+{% endblock javascript %}
