@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.core.urlresolvers import reverse
+from django.utils.encoding import python_2_unicode_compatible
 
 from core.models import TimeStampedModel, TastyTitleAbstractModel
 
@@ -11,10 +12,14 @@ STATUS = (
 )
 
 
+@python_2_unicode_compatible
 class Flavor(TastyTitleAbstractModel):
     title = models.CharField(max_length=255)
     slug = models.SlugField(unique=True)
     scoops_remaining = models.IntegerField(default=0, choices=STATUS)
+
+    def __str__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse('flavors:detail', kwargs={'slug': self.slug})
